@@ -29,9 +29,10 @@ const MODEL_FILES = [
 export function buildStandalone() {
   const html = readFileSync(join(dist, 'index.html'), 'utf8');
 
-  const scriptMatch = html.match(/<script type="module"[^>]*src="\.\/(assets\/[^"]+\.js)"[^>]*><\/script>/);
+  // Asset URLs carry the deploy base (`./` locally, `/repo-name/` on Pages); capture only the dist-relative tail.
+  const scriptMatch = html.match(/<script type="module"[^>]*src="[^"]*?(assets\/[^"]+\.js)"[^>]*><\/script>/);
   if (!scriptMatch) throw new Error('Built module script tag not found in dist/index.html');
-  const cssMatches = [...html.matchAll(/<link rel="stylesheet"[^>]*href="\.\/(assets\/[^"]+\.css)"[^>]*>/g)];
+  const cssMatches = [...html.matchAll(/<link rel="stylesheet"[^>]*href="[^"]*?(assets\/[^"]+\.css)"[^>]*>/g)];
   if (!cssMatches.length) throw new Error('Built stylesheet link not found in dist/index.html');
 
   const assets = {};
@@ -49,17 +50,20 @@ export function buildStandalone() {
     const cssPath = match[1];
     const cssDir = join(dist, cssPath, '..');
     const css = readFileSync(join(dist, cssPath), 'utf8').replace(
-      /url\((['"]?)(\.\/[^'")]+?)\1\)/g,
+      /url\((['"]?)([^'")]+?)\1\)/g,
       (whole, quote, path) => {
-        // Built CSS lives in assets/, so bare ./ refs resolve against that folder first.
-        for (const base of [cssDir, dist]) {
-          const file = join(base, path.replace(/^.\//, ''));
-          if (existsSync(file) && MIME[extname(path).toLowerCase()]) {
-            const mime = MIME[extname(path).toLowerCase()];
-            return `url(${quote}data:${mime};base64,${readFileSync(file).toString('base64')}${quote})`;
-          }
-        }
-        return whole;
+        // Candidates cover `./name.woff2` (relative to the CSS file in assets/),
+        // `./assets/x`, and `/deploy-base/assets/x` from absolute-base builds.
+        const bare = path.replace(/^\.\//, '');
+        const candidates = [
+          join(dist, bare),
+          join(dist, path.replace(/^.*?assets\//, 'assets/')),
+          join(cssDir, bare),
+        ];
+        const file = candidates.find((c) => existsSync(c) && MIME[extname(c).toLowerCase()]);
+        if (!file) return whole;
+        const mime = MIME[extname(file).toLowerCase()];
+        return `url(${quote}data:${mime};base64,${readFileSync(file).toString('base64')}${quote})`;
       },
     );
     // Replacement functions keep `$&`-style sequences in the payload from being interpreted.
@@ -67,15 +71,22 @@ export function buildStandalone() {
   }
   standalone = standalone.replace(/<link rel="modulepreload"[^>]*>\s*/g, '');
   for (const icon of ['branding/icon-32.png', 'branding/icon-180.png']) {
-    if (existsSync(join(dist, icon))) standalone = standalone.replaceAll(`./${icon}`, inline(icon));
+    if (!existsSync(join(dist, icon))) continue;
+    const uri = inline(icon);
+    standalone = standalone.replace(new RegExp(`[^'"]*${icon.split('/')[1]}(?=['"])`, 'g'), () => uri);
   }
 
   let js = readFileSync(join(dist, scriptMatch[1]), 'utf8');
   // Inlined into the document, import.meta.url becomes the page URL instead of /assets/,
   // so point the audio worker chunk at its real location for the HTTP-served case.
-  const workerRef = js.match(/new\s+URL\(\s*(['"`])(audio-synthesis\.worker-[A-Za-z0-9_-]+\.js)\1\s*,\s*import\.meta\.url\s*\)\.href/);
-  if (!workerRef) throw new Error('Audio worker URL reference not found in bundle');
-  js = js.replace(workerRef[0], () => `"./assets/${workerRef[2]}"`);
+  // Vite emits either `new URL('audio-synthesis.worker-X.js', import.meta.url)` (relative base)
+  // or `new URL('/base/assets/audio-synthesis.worker-X.js', import.meta.url)` (absolute base);
+  // rewrite the URL string literal to a dist-relative './assets/...' in both.
+  const workerName = js.match(/audio-synthesis\.worker-[A-Za-z0-9_-]+\.js/);
+  if (!workerName) throw new Error('Audio worker chunk reference not found in bundle');
+  const workerLiteral = new RegExp(`(['"\`])[^'"\`]*${workerName[0]}[^'"\`]*\\1`);
+  if (!workerLiteral.test(js)) throw new Error('Audio worker URL string literal not found in bundle');
+  js = js.replace(workerLiteral, () => `"./assets/${workerName[0]}"`);
   const bootstrap = `<script>window.__FILE_ASSETS__=${JSON.stringify(assets)};</script>`;
   standalone = standalone.replace(scriptMatch[0], () => `${bootstrap}\n<script type="module">\n${js}\n</script>`);
 
