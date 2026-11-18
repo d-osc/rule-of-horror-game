@@ -1,0 +1,13 @@
+node_modules/
+dist/
+test-results/
+artifacts/
+*.log
+.DS_Store
+releases/
+*.blend1
+.claude/
+.env
+.env.*
+references/youtube.*
+references/transcript-working.txt

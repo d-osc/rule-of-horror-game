@@ -1,0 +1,216 @@
+.visit {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  --visit-left: max(20px, calc(env(safe-area-inset-left) + 12px));
+  --visit-right: max(20px, calc(env(safe-area-inset-right) + 12px));
+  --visit-bottom: max(14px, calc(env(safe-area-inset-bottom) + 8px));
+  background: radial-gradient(ellipse at 52% 44%, transparent 34%, #0203028a);
+}
+.visit a,
+.visit button {
+  pointer-events: auto;
+}
+.visit a:focus-visible,
+.visit button:focus-visible {
+  outline: 2px solid #efb38c;
+  outline-offset: 3px;
+}
+.visit header {
+  position: absolute;
+  inset: max(8px, env(safe-area-inset-top)) var(--visit-right) auto var(--visit-left);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 12px;
+  color: #e9dfc6;
+  text-align: center;
+  text-shadow: 0 2px 6px #000;
+}
+.visit header > a {
+  justify-self: start;
+}
+.visit-header-actions {
+  display: flex;
+  justify-self: end;
+  gap: 6px;
+}
+.visit header small {
+  color: #d7ad8c;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.visit header h1 {
+  font-family: inherit;
+  font-size: clamp(15px, 4.8dvh, 25px);
+  margin: 3px 0 0;
+  width: auto;
+  white-space: normal;
+  letter-spacing: normal;
+  transform: none;
+  line-height: 1.35;
+}
+.visit header a,
+.visit header button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  flex-shrink: 0;
+  padding: 8px 12px;
+  color: #e9dfc6;
+  background: #101611d9;
+  border: 1px solid #b4ad8559;
+  font-size: 12px;
+  text-decoration: none;
+}
+.visit-objective {
+  position: absolute;
+  left: var(--visit-left);
+  top: max(70px, calc(env(safe-area-inset-top) + 55px));
+  width: min(44vw, 400px);
+  color: #f1e5ca;
+  padding: 6px 10px;
+  border-left: 2px solid #a96a50;
+  background: linear-gradient(90deg, #080d09de, #080d0950 83%, transparent);
+  text-shadow: 0 1px 4px #000;
+}
+.visit-objective p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.visit-objective #visit-text {
+  color: #d2cfb9;
+  margin-top: 4px;
+  font-size: 11px;
+}
+#visit-pressure {
+  display: block;
+  width: min(96px, 100%);
+  height: 6px;
+  accent-color: #b88a60;
+  margin-top: 5px;
+}
+#visit-reticle {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: #eee7cb;
+  box-shadow: 0 0 3px #000;
+}
+#visit-marker {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  color: #edc28b;
+  text-shadow:
+    0 1px 6px #000,
+    0 1px 3px #000;
+  font-size: 19px;
+}
+#visit-controls {
+  position: absolute;
+  margin: 0;
+  left: 50%;
+  bottom: var(--visit-bottom);
+  transform: translateX(-50%);
+  color: #dbd7bd;
+  text-shadow: 0 1px 4px #000;
+  white-space: nowrap;
+  font-size: 11px;
+}
+.visit-actions {
+  position: absolute;
+  right: var(--visit-right);
+  bottom: max(38px, calc(env(safe-area-inset-bottom) + 32px));
+  width: min(42vw, 270px);
+  display: grid;
+  gap: 7px;
+}
+.visit-actions button,
+.visit-panel button {
+  min-height: 44px;
+  padding: 8px 12px;
+  background: #694637;
+  color: #fff2db;
+}
+.visit-actions #visit-other,
+#visit-audio {
+  background: #273028;
+}
+#visit-move {
+  position: absolute;
+  bottom: var(--visit-bottom);
+  left: var(--visit-left);
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  gap: 4px;
+}
+#visit-move button {
+  min-height: 44px;
+  touch-action: none;
+  background: #17221bd9;
+  color: #e9dfc6;
+  border: 1px solid #b4ad8559;
+}
+#visit-move button:active {
+  background: #694637;
+}
+#visit-move [data-move='up'] {
+  grid-column: 2;
+}
+#visit-move [data-move='left'] {
+  grid-column: 1;
+}
+.visit-overlay {
+  pointer-events: auto;
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  display: flex;
+  padding: 12px var(--visit-right) var(--visit-bottom) var(--visit-left);
+  background: #020403b8;
+}
+.visit-panel {
+  margin: auto;
+  width: min(100%, 560px);
+  padding: clamp(16px, 4.5dvh, 34px);
+  border-left: 2px solid #a96a50;
+  background: #101610f2;
+  color: #eee4cc;
+}
+.visit-panel small {
+  color: #d2a382;
+}
+.visit-panel h2 {
+  margin: 4px 0 8px;
+  font-size: clamp(21px, 6dvh, 31px);
+  line-height: 1.35;
+}
+.visit-panel p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.visit-panel a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #e1d2ac;
+  padding: 0 8px;
+  font-size: 13px;
+}
+@media (max-height: 400px) {
+  .visit-objective p {
+    font-size: 12px;
+  }
+  .visit-objective #visit-text {
+    font-size: 10px;
+  }
+  #visit-controls {
+    font-size: 9px;
+  }
+}

@@ -1,0 +1,14 @@
+import { chromium } from '@playwright/test';
+import { mkdir } from 'node:fs/promises';
+await mkdir('artifacts/preview',{recursive:true});
+const browser=await chromium.launch({channel:'chromium',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:900}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+await page.goto(process.env.GAME_URL??'http://127.0.0.1:5188/?qa=1');
+await page.waitForFunction(()=>!document.getElementById('start').disabled);
+await page.evaluate(()=>document.fonts.ready);
+await page.screenshot({path:'artifacts/preview/menu.png'});
+await page.evaluate(()=>window.__THREE_GAME_TEST_HOOKS__.setState('active-play'));
+await page.screenshot({path:'artifacts/preview/play.png'});
+console.log(JSON.stringify({errors,diagnostics:await page.evaluate(()=>window.__THREE_GAME_DIAGNOSTICS__)},null,2));
+await browser.close();

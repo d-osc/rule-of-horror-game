@@ -1,0 +1,32 @@
+{
+  "name": "rule-horror-engine",
+  "version": "0.1.0",
+  "private": true,
+  "license": "LicenseRef-Proprietary",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc && vite build && node scripts/prepare-distribution.mjs",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "npm run test:unit && playwright test",
+    "test:unit": "tsx --test tests/rules.test.ts",
+    "verify:visual": "playwright test tests/episode.spec.ts",
+    "inspect:canvas": "node scripts/inspect-threejs-canvas.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-thai": "^5.3.0",
+    "@fontsource/libre-caslon-display": "^5.3.0",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.0",
+    "@types/pngjs": "^6.0.5",
+    "@types/three": "^0.184.1",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.13"
+  }
+}

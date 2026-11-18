@@ -1,0 +1,130 @@
+[
+  {
+    "asset": "interior_tiles",
+    "role": "Diffuse",
+    "file": "interior_tiles_diffuse.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/interior_tiles/interior_tiles_diff_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/interior_tiles"
+  },
+  {
+    "asset": "interior_tiles",
+    "role": "nor_gl",
+    "file": "interior_tiles_nor_gl.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/interior_tiles/interior_tiles_nor_gl_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/interior_tiles"
+  },
+  {
+    "asset": "interior_tiles",
+    "role": "Rough",
+    "file": "interior_tiles_rough.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/interior_tiles/interior_tiles_rough_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/interior_tiles"
+  },
+  {
+    "asset": "interior_tiles",
+    "role": "AO",
+    "file": "interior_tiles_ao.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/interior_tiles/interior_tiles_ao_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/interior_tiles"
+  },
+  {
+    "asset": "long_white_tiles",
+    "role": "Diffuse",
+    "file": "long_white_tiles_diffuse.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/long_white_tiles/long_white_tiles_diff_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/long_white_tiles"
+  },
+  {
+    "asset": "long_white_tiles",
+    "role": "nor_gl",
+    "file": "long_white_tiles_nor_gl.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/long_white_tiles/long_white_tiles_nor_gl_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/long_white_tiles"
+  },
+  {
+    "asset": "long_white_tiles",
+    "role": "Rough",
+    "file": "long_white_tiles_rough.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/long_white_tiles/long_white_tiles_rough_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/long_white_tiles"
+  },
+  {
+    "asset": "long_white_tiles",
+    "role": "AO",
+    "file": "long_white_tiles_ao.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/long_white_tiles/long_white_tiles_ao_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/long_white_tiles"
+  },
+  {
+    "asset": "worn_plaster_wall",
+    "role": "Diffuse",
+    "file": "worn_plaster_wall_diffuse.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_plaster_wall/worn_plaster_wall_diff_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/worn_plaster_wall"
+  },
+  {
+    "asset": "worn_plaster_wall",
+    "role": "nor_gl",
+    "file": "worn_plaster_wall_nor_gl.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_plaster_wall/worn_plaster_wall_nor_gl_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/worn_plaster_wall"
+  },
+  {
+    "asset": "worn_plaster_wall",
+    "role": "Rough",
+    "file": "worn_plaster_wall_rough.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_plaster_wall/worn_plaster_wall_rough_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/worn_plaster_wall"
+  },
+  {
+    "asset": "worn_plaster_wall",
+    "role": "AO",
+    "file": "worn_plaster_wall_ao.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/worn_plaster_wall/worn_plaster_wall_ao_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/worn_plaster_wall"
+  },
+  {
+    "asset": "bedroom_carpet",
+    "role": "Diffuse",
+    "file": "bedroom_carpet_diffuse.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_diff_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/dirty_carpet"
+  },
+  {
+    "asset": "bedroom_carpet",
+    "role": "nor_gl",
+    "file": "bedroom_carpet_nor_gl.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_nor_gl_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/dirty_carpet"
+  },
+  {
+    "asset": "bedroom_carpet",
+    "role": "Rough",
+    "file": "bedroom_carpet_rough.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_rough_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/dirty_carpet"
+  },
+  {
+    "asset": "bedroom_carpet",
+    "role": "AO",
+    "file": "bedroom_carpet_ao.jpg",
+    "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dirty_carpet/dirty_carpet_ao_1k.jpg",
+    "license": "CC0",
+    "page": "https://polyhaven.com/a/dirty_carpet"
+  }
+]

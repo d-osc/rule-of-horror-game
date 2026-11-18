@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#111312" />
+    <meta name="copyright" content="Copyright 2026 d-osc. All rights reserved." />
+    <link rel="icon" type="image/png" href="/branding/icon-32.png" />
+    <link rel="apple-touch-icon" href="/branding/icon-180.png" />
+    <meta property="og:title" content="Rule of Horror — ห้อง 316" />
+    <meta property="og:image" content="/branding/cover-1200x630.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <title>Rule of Horror — ห้อง 316</title>
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="game-canvas" aria-label="ฉากเกมสยองขวัญสามมิติ ห้องน้ำโรงแรม 316"></canvas>
+      <div id="vignette"></div>
+      <div id="grain"></div>
+      <div id="eyelids"></div>
+      <header class="masthead">
+        <a class="hotel-brand" href="#" aria-label="กลับหน้าหลัก"
+          ><span class="crest">๓</span><span id="menu-location">โรงแรมราตรี</span></a
+        >
+        <div class="chapter-mark">
+          AN ANTHOLOGY OF RULES<span>โปรดปฏิบัติตาม เพื่อความปลอดภัยของท่าน</span>
+        </div>
+        <button id="mute" class="icon-button" aria-label="ปิดเสียง">เสียง เปิด</button>
+      </header>
+      <section id="menu" class="screen menu-screen">
+        <div id="episode-two-backdrop" aria-hidden="true"></div>
+        <div class="menu-copy">
+          <p class="eyebrow"><span></span> แฟ้มเหตุการณ์ 01 · หลังเที่ยงคืน</p>
+          <h1>RULE OF<br /><span>HORROR</span><i>กฎหลอน</i></h1>
+          <div class="episode-title">
+            <span class="roman">I</span>
+            <div>
+              <h2>กฎ 9 ข้อ</h2>
+              <p>ของการอาบน้ำหลังเที่ยงคืน</p>
+            </div>
+          </div>
+          <p class="intro">หลังเที่ยงคืน คุณเข้าพักในห้อง 316<br />ที่กระจกมีจดหมาย… และเก้าข้อที่ห้ามลืม</p>
+          <button id="start" class="primary" disabled>
+            <span>กำลังเตรียมห้อง 316</span><b aria-hidden="true">↗</b></button
+          ><button id="read-menu" class="text-button">อ่านกระดาษที่ทิ้งไว้ <span>↗</span></button>
+          <button id="next-episode" class="text-button">
+            ตอนที่ 2 <span aria-hidden="true">→</span>
+          </button>
+          <p class="content-warning">
+            แนะนำให้ใช้หูฟัง · มีภาพและเสียงสยองขวัญ<br />ตอนที่ 1 · ประมาณ 5–10 นาที
+          </p>
+        </div>
+        <div id="episode-two" class="menu-copy" hidden>
+          <p class="eyebrow"><span></span> แฟ้มเหตุการณ์ 02</p>
+          <h1 class="episode-two-title">บ้านย่านุ่น</h1>
+          <p>กฎในการไปเยี่ยมบ้านย่านุ่น · จังหวัดอ่างทอง</p>
+          <p class="episode-availability">ยังไม่เปิดให้เล่น</p>
+          <button id="previous-episode" class="text-button">← กลับตอนที่ 1</button>
+        </div>
+        <div class="room-caption" aria-hidden="true">
+          <span class="room-line"></span><small>DO NOT LOOK BACK</small><strong>316</strong>
+          <p>ชั้น 3 · หลังเที่ยงคืน</p>
+        </div>
+        <footer class="menu-footer">
+          <span id="menu-warning">ถ้าได้ยินเสียงเรียกจากห้องน้ำ อย่าตอบ</span
+          ><span>01 <i>/</i> <span class="muted">02</span></span
+          ><span class="clock"><span id="menu-time">00:01 AM</span> <b>●</b></span>
+        </footer>
+      </section>
+      <section id="hud" hidden>
+        <div class="objective">
+          <span id="rule-index" class="eyebrow">ข้อปฏิบัติ 01 / 09</span>
+          <h2 id="objective"></h2>
+          <p id="hint"></p>
+          <div class="rule-progress" id="rule-progress" aria-label="ความคืบหน้ากฎทั้งเก้าข้อ"></div>
+        </div>
+        <div class="room-hud">
+          <span>ห้อง 316</span><strong id="clock">00:01</strong
+          ><button id="pause" class="icon-button" aria-label="หยุดเกม">II</button>
+        </div>
+        <div id="reticle"></div>
+        <div id="interaction"><kbd>E</kbd> <span></span></div>
+        <div id="subtitles">
+          <div id="dialogue-caption" role="status"></div>
+          <div id="subtitle" role="status"></div>
+        </div>
+        <div class="bottom-hud" aria-label="การควบคุมเกม">
+          <span><kbd>W A S D</kbd> เดิน <kbd>เมาส์</kbd> มอง <kbd>E</kbd> ใช้ / เก็บ</span
+          ><span><kbd>C</kbd> หลับตา <kbd>R</kbd> อ่านกฎ <kbd>ESC</kbd> พัก</span>
+        </div>
+        <div class="touch-ui">
+          <div id="stick"><span></span></div>
+          <button id="touch-eyes" aria-label="หลับตาหรือลืมตา">หลับตา</button
+          ><button id="touch-note" aria-label="อ่านกฎ">กฎ 9 ข้อ</button
+          ><button id="touch-act" aria-label="สำรวจหรือใช้งาน">ใช้ / เก็บ</button>
+        </div>
+      </section>
+      <section
+        id="note"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="note-title"
+        hidden
+      >
+        <article class="paper">
+          <span class="paper-hotel">RATREE GRAND HOTEL · ROOM 316</span>
+          <h2 id="note-title">ข้อปฏิบัติหลังเที่ยงคืน</h2>
+          <p class="paper-intro">
+            ทางโรงแรมไม่แนะนำให้อาบน้ำหลังเวลา 24:00 น.<br />หากท่านจำเป็น โปรดอ่านให้ครบทุกข้อ
+            เพื่อความปลอดภัยของท่าน
+          </p>
+          <ol id="rules-list"></ol>
+          <p class="source-note">
+            ดัดแปลงจากเรื่องเล่าของ nuenglc · ข้อความสรุปจากคำบรรยายอัตโนมัติ<br />เวลาและลำดับเหตุการณ์บางส่วนปรับเพื่อการเล่น
+          </p>
+          <button id="close-note" class="primary">อ่านครบแล้ว <b>↗</b></button>
+        </article>
+      </section>
+      <section
+        id="pause-screen"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pause-title"
+        hidden
+      >
+        <article class="dark-panel">
+          <p class="eyebrow">PLEASE DO NOT DISTURB</p>
+          <h2 id="pause-title">พักอยู่ในความเงียบ</h2>
+          <p>เวลาหยุดแล้ว คุณกลับเข้าไปได้เมื่อพร้อม</p>
+          <button id="resume" class="primary">กลับเข้าห้อง <b>↗</b></button
+          ><button id="restart-pause" class="text-button">เริ่มคืนนี้ใหม่</button
+          ><label class="setting"
+            ><input id="reduce-motion" type="checkbox" /> ลดการเคลื่อนไหวและแสงกะพริบ</label
+          ><label class="setting"
+            >ความไวเมาส์
+            <input
+              id="sensitivity"
+              type="range"
+              min="0.0005"
+              max="0.004"
+              step="0.0001"
+              value="0.0018" /></label
+          ><button id="quit" class="text-button">กลับหน้าหลัก</button>
+        </article>
+      </section>
+      <section
+        id="end-screen"
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="end-title"
+        hidden
+      >
+        <article class="dark-panel">
+          <p id="end-kicker" class="eyebrow"></p>
+          <h2 id="end-title"></h2>
+          <p id="end-cause"></p>
+          <p id="end-detail"></p>
+          <button id="retry" class="primary">เริ่มคืนนี้ใหม่ <b>↗</b></button
+          ><button id="end-menu" class="text-button">กลับหน้าหลัก</button>
+        </article>
+      </section>
+      <div id="load-error" hidden></div>
+    </main>
+    <aside id="rotate-device" hidden aria-labelledby="rotate-title">
+      <span aria-hidden="true">↻</span>
+      <h2 id="rotate-title">หมุนเครื่องเป็นแนวนอน</h2>
+      <p>เกมนี้เล่นในแนวนอนบนมือถือและแท็บเล็ต</p>
+    </aside>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
