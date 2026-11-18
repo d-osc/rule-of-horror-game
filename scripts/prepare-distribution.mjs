@@ -19,7 +19,7 @@ for (const [name, packagePath] of [
   await copyFile(new URL('node_modules/' + packagePath, root), new URL('licenses/' + name + '.txt', dist));
 }
 await writeFile(new URL('START-HERE.txt', dist),
-  'Rule of Horror\nHOW TO PLAY\n1. Extract the WHOLE folder out of the zip first.\n2. Easiest: double-click index.html. The whole game\n   (models, textures, sounds) is packed inside that one file, so it runs\n   straight from the folder in Chrome or Edge - no install, no internet.\n3. Alternative for Windows: PLAY-GAME.bat starts a tiny local server\n   and opens the game (keep the black window open while playing).\n4. Hosting online or on LAN: serve this folder over HTTP and open index.html,\n   e.g. python -m http.server 8080.\nPersonal non-commercial play only. See LICENSE.\n');
+  'Rule of Horror\nHOW TO PLAY\n1. Extract the WHOLE folder out of the zip first.\n2. Double-click index.html. The whole game\n   (models, textures, sounds) is packed inside that one file, so it runs\n   straight from the folder in Chrome or Edge - no install, no internet.\n3. Hosting online or on LAN: serve this folder over HTTP and open index.html,\n   e.g. python -m http.server 8080.\nPersonal non-commercial play only. See LICENSE.\n');
 
 const standalone = await buildStandalone();
 console.log(`Standalone build: ${standalone} (${(await readdir(dist)).length} entries in dist)`);
