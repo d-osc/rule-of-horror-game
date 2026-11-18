@@ -32,7 +32,7 @@ export class HorrorAudio {
   async loadScreech(): Promise<void> {
     if (this.screechReady || !this.ctx) return;
     try {
-      this.screechFetch ??= fetch('/audio/screech.mp3').then((r) => {
+      this.screechFetch ??= fetch(`${import.meta.env.BASE_URL}audio/screech.mp3`).then((r) => {
         if (!r.ok) throw new Error(String(r.status));
         return r.arrayBuffer();
       });
