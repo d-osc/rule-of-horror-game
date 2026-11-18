@@ -1,4 +1,5 @@
 import * as T from 'three';
+import { assetUrl } from '../game/fileAssets';
 
 export class Materials {
   floor = new T.MeshPhysicalMaterial({
@@ -38,7 +39,7 @@ export class Materials {
     const maps = await Promise.all(
       ['diffuse', 'nor_gl', 'rough', 'ao'].map(async (role) => {
         const t = await loader.loadAsync(
-          `${import.meta.env.BASE_URL}textures/${asset}_${role}.jpg`,
+          assetUrl(`textures/${asset}_${role}.jpg`),
         );
         t.wrapS = t.wrapT = T.RepeatWrapping;
         t.repeat.set(rx, ry);

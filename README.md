@@ -39,7 +39,13 @@ npm run build
 npm run preview
 ```
 
-Build อยู่ใน `dist/` เป็นเว็บ static เปิดผ่าน HTTP ไม่ใช่ file:// หากวางใน subpath ให้กำหนด `base` ใน vite.config.ts ให้ตรง host ก่อน build การทดสอบใช้ Chromium ผ่าน Playwright ติดตั้งด้วย `npx playwright install --no-shell chromium` หากยังไม่มี
+Build อยู่ใน `dist/` — `index.html` คือไฟล์เดียว self-contained วิธีเล่นจากไฟล์ zip: แตกไฟล์ทั้งโฟลเดอร์ออกก่อน แล้วเลือกวิธีใดก็ได้
+
+1. **ดับเบิลคลิก `index.html`** (ง่ายที่สุด) — สคริปต์ `prepare-distribution` ยัดทุกอย่างลงไฟล์นี้: JS/CSS/ฟอนต์ inline, โมเดล texture เสียงเป็น data URI (`window.__FILE_ASSETS__`) บน file:// เสียงสังเคราะห์จะรันบน main thread แทน worker เพราะ file:// บล็อกการสร้าง worker ทุกชนิด (blob/data รวมด้วย) เปิดได้ตรง ๆ ใน Chrome/Edge ไฟล์จะใหญ่ราว 22 MB และตอนกดเริ่มจะสะดุดแป๊บเดียวตอนสังเคราะห์เสียง
+2. **`PLAY-GAME.bat`** (Windows) — เปิดเซิร์ฟเวอร์เล็ก ๆ ในเครื่อง (PowerShell HttpListener พอร์ต 8173–8180) พร้อมเปิดเบราว์เซอร์ให้เอง ปิดหน้าต่างนั้นเมื่อเล่นเสร็จ
+3. **Hosting/LAN** — serve โฟลเดอร์ผ่าน HTTP แล้วเปิด `index.html` เช่น `python -m http.server 8080` (บน HTTP เสียงสังเคราะห์กลับไปใช้ worker ตามเดิม)
+
+หากวางบน host ใน subpath ให้กำหนด `base` ใน vite.config.ts ให้ตรงก่อน build (ค่าเริ่มต้น build เป็น path สัมพัทธ์ `./`) การทดสอบใช้ Chromium ผ่าน Playwright ติดตั้งด้วย `npx playwright install --no-shell chromium` หากยังไม่มี
 
 Unit tests ตรวจทั้งเก้ากฎ เส้นทางชนะ เงื่อนไขแพ้ การพัก และรีเซ็ต Browser tests ใช้ E/C จริงในการผ่านกฎ โดยใช้ QA hooks จัดตำแหน่ง/เร่งเวลาระหว่างเหตุการณ์ และตรวจ input เดินจริงแยกต่างหาก QA hooks เปิดเฉพาะ dev หรือ URL `?qa=1` ไม่ได้เปิดในหน้า production ปกติ
 

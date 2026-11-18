@@ -1,4 +1,5 @@
 import lines from './episode01-dialogue.json';
+import { assetUrl } from './fileAssets';
 
 type DialogueId = keyof typeof lines;
 type DialogueLine = {
@@ -20,4 +21,4 @@ export const dialogueByRule: Partial<Record<number, DialogueId>> = {
   8: 'bag',
 };
 
-export const dialogueUrl = (id: string) => `${import.meta.env.BASE_URL}audio/episode-01/${id}.mp3`;
+export const dialogueUrl = (id: string) => assetUrl(`audio/episode-01/${id}.mp3`);

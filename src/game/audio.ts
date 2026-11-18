@@ -1,4 +1,6 @@
 export type AudioCue = 'step' | 'knock' | 'whisper' | 'danger' | 'fail' | 'win' | 'interact' | 'footstep' | 'screech' | 'horn';
+import { synthesize, type SynthesisResult } from './audio-synthesis';
+import { assetUrl } from './fileAssets';
 
 type Voice = { source: AudioBufferSourceNode; gain: GainNode; pan: StereoPannerNode };
 
@@ -32,7 +34,7 @@ export class HorrorAudio {
   async loadScreech(): Promise<void> {
     if (this.screechReady || !this.ctx) return;
     try {
-      this.screechFetch ??= fetch(`${import.meta.env.BASE_URL}audio/screech.mp3`).then((r) => {
+      this.screechFetch ??= fetch(assetUrl('audio/screech.mp3')).then((r) => {
         if (!r.ok) throw new Error(String(r.status));
         return r.arrayBuffer();
       });
@@ -256,17 +258,35 @@ export class HorrorAudio {
   private prepareTextures(): Promise<void> {
     if (this.texturesReady) return this.texturesReady;
     const ctx = this.ctx!;
+    const apply = (data: SynthesisResult) => {
+      const decode = (channels: Float32Array[]) => {
+        const buffer = ctx.createBuffer(channels.length, channels[0].length, ctx.sampleRate);
+        channels.forEach((channel, index) => buffer.copyToChannel(new Float32Array(channel), index));
+        return buffer;
+      };
+      this.noiseBuffer = decode(data.noise);
+      this.impulse = decode(data.impulse);
+      for (const cue of data.cues) this.buffers.set(cue.name, decode(cue.channels));
+    };
+    if (location.protocol === 'file:') {
+      // file:// pages cannot spawn any worker (blob and data: included);
+      // synthesize on the main thread instead (one brief hitch right after start).
+      this.texturesReady = new Promise<void>((resolve, reject) => {
+        setTimeout(() => {
+          try {
+            apply(synthesize(ctx.sampleRate));
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        }, 60);
+      });
+      return this.texturesReady;
+    }
     this.texturesReady = new Promise<void>((resolve, reject) => {
       const worker = new Worker(new URL('./audio-synthesis.worker.ts', import.meta.url), { type: 'module' });
       worker.onmessage = ({ data }) => {
-        const decode = (channels: Float32Array[]) => {
-          const buffer = ctx.createBuffer(channels.length, channels[0].length, ctx.sampleRate);
-          channels.forEach((channel, index) => buffer.copyToChannel(new Float32Array(channel), index));
-          return buffer;
-        };
-        this.noiseBuffer = decode(data.noise);
-        this.impulse = decode(data.impulse);
-        for (const cue of data.cues) this.buffers.set(cue.name, decode(cue.channels));
+        apply(data);
         worker.terminate();
         resolve();
       };

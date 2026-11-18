@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RULES, type Action } from './game/rules';
+import { assetUrl } from './game/fileAssets';
 import { Materials } from './graphics/Materials';
 import { Atmosphere } from './graphics/Atmosphere';
 import { WaterParticles } from './graphics/WaterParticles';
@@ -395,7 +396,7 @@ export class HotelWorld {
       placements.map(async ([name, x, z, rot, target]) => {
         try {
           const file = name === 'ghost' ? 'ghost-aaa' : name === 'door-316' ? 'door' : name;
-          const gltf = await loader.loadAsync(`${import.meta.env.BASE_URL}models/${file}.glb`);
+          const gltf = await loader.loadAsync(assetUrl(`models/${file}.glb`));
           const root = target ?? new T.Group();
           root.add(gltf.scene);
           root.position.set(x, 0, z);
